@@ -1,0 +1,13 @@
+// 样式相关的复用
+@mixin flex($jus:space-between, $item:center) {
+  display: flex;
+  justify-content: $jus;
+  align-items: $item;
+}
+
+@mixin bgImg($w, $h, $url:'', $size:contain) {
+  width: $w;
+  height: $h;
+  background: url($url) no-repeat center;
+  background-size: $size;
+}
