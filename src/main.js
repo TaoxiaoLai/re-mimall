@@ -6,10 +6,20 @@ import App from './App.vue'
 
 Vue.config.productionTip = false
 
+// mock开关
+// const mock = true
+// if(mock) {
+//   require('./mock/api')
+// }
+
+axios.defaults.baseURL = '/api'
+axios.defaults.timeout = 8000
+
+
 Vue.use(VueAxios,axios)
 
 // 接口错误拦截
-axios.interceptors.request.use((response) => {
+axios.interceptors.response.use((response) => {
   let res = response.data
   if(res.status == 0) {
     return res.data
