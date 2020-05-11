@@ -44,7 +44,7 @@
           <div class="item-menu">
             <span>电视</span>
             <div class="children">
-              <ul>
+              <!-- <ul>
                 <li class="product">
                   <a href="" target="_blank">
                     <div class="pro-img">
@@ -99,7 +99,7 @@
                     <div class="pro-price">查看全部</div>
                   </a>
                 </li>
-              </ul>
+              </ul> -->
             </div>
           </div>
         </div>
@@ -244,6 +244,7 @@ export default {
               border-top: 1px solid #e5e5e5;
               box-shadow: 0px 7px 6px 0px rgba(0, 0, 0, 0.11);
               z-index: 10;
+              background-color: #ffffff;
               .product {
                 position: relative;
                 float: left;
