@@ -1,0 +1,50 @@
+.modal {
+  @include position(fixed);
+  z-index: 10;
+  transition: top .5s;
+  .mask {
+    @include position(fixed);
+    background-color: $colorI;
+    opacity: 0.5;
+  }
+  // 注意控制动画时，这几个属性有先后顺序，不然动画可能会失效
+  // active都得写在上面，其余写在下面
+  &.slide-enter-active {
+    top: 0;
+  }
+  &.slide-leave-active {
+    top: -100%;
+  }
+  &.slide-enter {
+    top: -100%;
+  }
+  .modal-dialog {
+    @include position(absolute, 40%, 50%, 660px, auto);
+    transform: translate(-50%, -50%);  // transform是元素的空间位置变换，其中的translate属性是x轴和y轴上的2维平移
+    background-color: $colorG;
+    .modal-header{
+      height: 60px;
+      line-height: 60px;
+      background-color: $colorJ;
+      font-size: $fontI;
+      padding: 0 25px;
+      .icon-close {
+        @include positionImg(absolute,23px,25px,14px,14px,'/imgs/icon-close.png');
+        transition: transform .3s;  // 过渡动画，第一个属性是对什么操作进行过渡，all是全部操作，第二个是持续时间
+        &:hover {
+          transform: scale(1.5);  // transform里面的scale是放大缩小
+        }
+      }
+    }
+  }
+  .modal-body {
+    padding: 42px 30px 54px;
+    font-size: 14px;
+  }
+  .modal-footer {
+    height: 82px;
+    line-height: 82px;
+    text-align: center;
+    background-color: $colorJ;
+  }
+}
