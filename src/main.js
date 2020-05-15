@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import VueLazyLoad from 'vue-lazyload'
 import VueAxios from 'vue-axios'
 import router from './router'
 import App from './App.vue'
@@ -17,6 +18,9 @@ axios.defaults.timeout = 8000
 
 
 Vue.use(VueAxios,axios)
+Vue.use(VueLazyLoad, {
+  loading: '/imgs/loading-svg/loading-bars.svg'
+})
 
 // 接口错误拦截
 axios.interceptors.response.use((response) => {

@@ -5,7 +5,7 @@
       <div class="mask"></div>
       <div class="modal-dialog">
         <div class="modal-header">
-          <span>{{title}}</span>
+          <span>{{title}}</span> 
           <a href="javascript:;" class="icon-close" @click="$emit('cancle')"></a>
         </div>
         <div class="modal-body">

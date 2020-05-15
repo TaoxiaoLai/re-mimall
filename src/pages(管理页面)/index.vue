@@ -66,14 +66,14 @@
         <h2>手机</h2>
         <div class="wrapper">
           <div class="banner-left">
-            <a href="/#/product/35"><img src="/imgs/mix-alpha.jpg" alt=""></a>
+            <a href="/#/product/35"><img v-lazy="'/imgs/mix-alpha.jpg'" alt=""></a>
           </div>
           <div class="list-box">
             <div class="list" v-for="(arr, index) in phoneList" :key="index">
               <div class="item" v-for="(item, j) in arr" :key="item.id">
                 <span :class="{'new-pro': j%2 == 0}">新品</span>
                 <div class="item-img">
-                  <img :src="item.mainImage">
+                  <img v-lazy="item.mainImage">
                 </div>
                 <div class="item-info">
                   <h3>{{item.name}}</h3>

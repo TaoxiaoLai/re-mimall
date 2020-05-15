@@ -29,7 +29,7 @@
                 <li class="product" v-for="(item, index) in productList" :key="index">
                   <a :href="'/#/product' + item.id" target="_blank">
                     <div class="pro-img">
-                      <img :src="item.mainImage" alt="">
+                      <img v-lazy="item.mainImage" alt="">
                     </div>
                     <div class="pro-name">{{item.name}}</div>
                     <div class="pro-price">{{item.price}}元</div>
@@ -44,7 +44,7 @@
           <div class="item-menu">
             <span>电视</span>
             <div class="children">
-              <!-- <ul>
+              <ul>
                 <li class="product">
                   <a href="" target="_blank">
                     <div class="pro-img">
@@ -99,7 +99,7 @@
                     <div class="pro-price">查看全部</div>
                   </a>
                 </li>
-              </ul> -->
+              </ul>
             </div>
           </div>
         </div>
