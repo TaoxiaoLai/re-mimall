@@ -149,7 +149,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import './../assets/scss/base.scss';
+// @import './../assets/scss/base.scss';
 @import './../assets/scss/mixin.scss';
 @import './../assets/scss/config.scss';
   .header {
@@ -171,6 +171,7 @@ export default {
           background-color: #ff6600;
           text-align: center;
           color: #ffffff;
+          margin-right: 0;
           .icon-cart {
             display: inline-block;
             @include bgImg(16px, 12px, '/imgs/icon-cart-checked.png');

@@ -9,6 +9,21 @@ export default {
   name: 'App',
   components: {
   
+  },
+  data() {
+    return {
+
+    }
+  },
+  mounted() {
+    this.getUser()
+  },
+  methods: {
+    getUser() {
+      this.axios.get('/user').then(() => {
+
+      })
+    }
   }
 }
 </script>
@@ -17,4 +32,5 @@ export default {
 @import './assets/scss/reset.scss';
 @import './assets/scss/config.scss';
 @import './assets/scss/button.scss';
+@import './assets/scss/base.scss';
 </style>

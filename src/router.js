@@ -9,6 +9,7 @@ import OrderList from './pages(管理页面)/orderList'
 import OrderConfirm from './pages(管理页面)/orderConfirm'
 import OrderPay from './pages(管理页面)/orderPay'
 import Cart from './pages(管理页面)/cart'
+import Login from './pages(管理页面)/login'
 
 Vue.use(Router)
 
@@ -59,6 +60,11 @@ export default new Router({
       path: '/cart',
       name: 'cart',
       component: Cart
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
     }
   ]
 })
