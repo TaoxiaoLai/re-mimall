@@ -13,10 +13,10 @@
             <input type="text" placeholder="请输入账号" v-model="username">
           </div>
           <div class="input">
-            <input type="text" placeholder="请输入密码" v-model="password">
+            <input type="password" placeholder="请输入密码" v-model="password">
           </div>
           <div class="btn-box">
-            <a href="javascript:;" class="btn">登录</a>
+            <a href="javascript:;" class="btn" @click="login">登录</a>
           </div>
           <div class="tips">
             <div class="sms">手机短信登录/注册</div>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   name: 'login',
   data() {
@@ -45,6 +46,9 @@ export default {
       username:'',
       password:''
     }
+  },
+  mounted() {
+    // this.register()
   },
   methods: {
     login() {
@@ -54,7 +58,21 @@ export default {
         password
       }).then((res) => {
         this.$cookie.set('userId', res.id, {expires: '1M'})
+        // this.$store.dispatch('saveUserName',res.username)
+        this.saveUserName(res.username)
         this.$router.push('/index')
+      })
+    },
+    ...mapMutations([
+      'saveUserName'
+    ]),
+    register(){
+      this.axios.post('/user/register',{
+        username:'xiaolai',
+        password:'xiaolai',
+        email:'xiaolai@163.com'
+      }).then(()=>{
+        console.log(1)
       })
     }
   }

@@ -216,15 +216,15 @@ export default {
         this.phoneList = [res.list.slice(6,10), res.list.slice(10,14)]
       })
     },
-    addCart() {
+    addCart(id) {
       this.showModal = true
-      // this.axios.post('/carts', {
-      //   productId:id,
-      //   selected: true
-      // }).then((res) => {
-      //   this.showModal = true,
-        
-      // })
+      this.axios.post('/carts', {
+        productId:id,
+        selected: true
+      }).then((res) => {
+        this.showModal = true,
+        this.$store.dispatch('saveCartCount', res.cartTotalQuantity)
+      })
     },
     gotoCart() {
       this.$router.push('/cart')
