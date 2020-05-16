@@ -42,7 +42,8 @@
         </div>
         <swiper :options="swiperOptions">
           <swiper-slide v-for="(item, index) in slideList" :key="index">
-            <a :href="'/#/product' + item.id"><img :src="item.img"></a>
+            <!-- 注意下面跳转路径的书写，product后面还要加/ -->
+            <a :href="'/#/product/' + item.id"><img :src="item.img"></a>
           </swiper-slide>
           <!-- Optional controls -->
           <div class="swiper-pagination"  slot="pagination"></div>

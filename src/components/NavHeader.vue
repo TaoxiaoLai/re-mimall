@@ -27,7 +27,7 @@
             <div class="children">
               <ul>
                 <li class="product" v-for="(item, index) in productList" :key="index">
-                  <a :href="'/#/product' + item.id" target="_blank">
+                  <a :href="'/#/product/' + item.id" target="_blank">
                     <div class="pro-img">
                       <img v-lazy="item.mainImage" alt="">
                     </div>
