@@ -26,7 +26,7 @@ export default {
   methods: {
     initHeight() {
       // 非IE浏览器内，通过window.pageYOffect和window.documentElement.scrollTop来获得滚动条距离顶部的距离，在IE中，通过window.body.scrollTop获得
-      let scrollTop = window.pageYOffset || window.documentElement.scrollTop || window.body.scrollTop;
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
       this.isFixed = scrollTop > 152? true:false
     }
   },
@@ -45,6 +45,7 @@ export default {
     line-height: 70px;
     border-top: 1px solid #e5e5e5;
     background-color:$colorG;
+    z-index: 10;
     &.fixed {
       position: fixed;
       top: 0;
