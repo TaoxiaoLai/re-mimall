@@ -2,13 +2,13 @@
   <div class="product">
     <product-param>
       <template v-slot:buy>
-        <button class="btn">立即购买</button>
+        <button class="btn" @click="buy">立即购买</button>
       </template>
     </product-param>
     <div class="content">
       <div class="item-bg">
-        <h2>xiaomi</h2>
-        <h3>cc9</h3>
+        <h2>{{phoneInfo.name}}</h2>
+        <h3>{{phoneInfo.subtitle}}</h3>
         <p>
           <a href="" id="">全球首款双频 GP</a>
           <span>|</span>
@@ -19,7 +19,7 @@
           <a href="" id="">红外人脸识别</a>
         </p>
         <div class="price">
-          <span>￥<em>1999</em></span>
+          <span>￥<em>{{phoneInfo.price}}</em></span>
         </div>
       </div>
       <div class="item-bg-2"></div>
@@ -43,9 +43,9 @@
       <p>后置960帧电影般超慢动作视频，将眨眼间的美妙展现得淋漓尽致！<br/>更能AI 精准分析视频内容，15个场景智能匹配背景音效。</p>
       <!-- 注意，下面的true一定不能加单引号，加了的话它就变成了字符串，不再是布尔值，下面的false同理 -->
       <div class="video-bg" @click="showSlide=true"></div>
-      <div class="video-box" v-if="showSlide">
-        <div class="overlay"></div>
-        <div class="video">
+      <div class="video-box">
+        <div class="overlay" v-if="showSlide"></div>
+        <div class="video" :class="{ 'slide': showSlide }">
           <span class="icon-close" @click="showSlide=false"></span>
           <!-- muted控制静音播放，controls设置视频进度条 -->
           <video src="/imgs/product/video.mp4" muted autoplay controls="controls"></video>
@@ -78,6 +78,22 @@ export default {
           clickable :true,
         }
       },
+      phoneInfo: {}
+    }
+  },
+  mounted() {
+    this.getProductDetail()
+  },
+  methods: {
+    getProductDetail() {
+      let id = this.$route.params.id
+      this.axios.get(`/products/${id}`).then((res) => {
+        this.phoneInfo = res
+      })
+    },
+    buy() {
+      let id = this.$route.params.id
+      this.$router.push(`/detail/${id}`)
     }
   }
 }
@@ -176,10 +192,16 @@ export default {
           width: 1000px;
           height: 536px;
           position: fixed;
-          top: 50%;
+          top: -50%;
           left: 50%;
           transform: translate(-50%, -50%);
           z-index: 10;
+          opacity: 0;
+          transition: all .6s;
+          &.slide {
+            top: 50%;
+            opacity: 1;
+          }
         }
         .icon-close{
           position:absolute;
