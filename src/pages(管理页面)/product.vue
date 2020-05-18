@@ -1,6 +1,6 @@
 <template>
   <div class="product">
-    <product-param>
+    <product-param :title="phoneInfo.name">
       <template v-slot:buy>
         <button class="btn" @click="buy">立即购买</button>
       </template>
