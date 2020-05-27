@@ -5,31 +5,24 @@
         <a href="/#/index"></a>
       </div>
       <div class="title">
-        <h2>我的购物车</h2><span>温馨提示</span>
+        <h2>{{title}}<slot name="tip"></slot></h2>
       </div>
-      <div class="username">username</div>
+      <div class="username">{{username}}</div>
     </div>
   </div>
 </template>
+
 <script>
-/*
-  我没写过歌
-  只看过山看过河
-  我没谱过曲
-  只听过风听过雨
-  我总想知道
-  什么是爱的旋律
-  直到我将
-  山河隔千里的词句
-  写入春风化雨的旋律
-  遥寄给你 你听
-  所有的音符
-  都是关于思念
-  关于爱
-  关于你
-**/ 
 export default {
-  name: 'order-header'
+  name: 'order-header',
+  props: {
+    title: String
+  },
+  computed: {
+    username() {
+      return this.$store.state.username
+    }
+  }
 }
 </script>
 
@@ -57,6 +50,7 @@ export default {
         margin-left: 17px;
         font-size: 14px;
         color: #999999;
+        font-weight: 200;
       }
     }
     .username {
