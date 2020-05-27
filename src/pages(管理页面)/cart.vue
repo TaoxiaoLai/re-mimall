@@ -9,7 +9,7 @@
       <div class="container">
         <div class="cart-box">
           <ul class="cart-item-head">
-            <li class="col-1"><span class="checkbox"></span>全选</li>
+            <li class="col-1"><span class="checkbox" :class="{'checked': allChecked}" @click="toggleAll()"></span>全选</li>
             <li class="col-3">商品名称</li>
             <li class="col-1">单价</li>
             <li class="col-2">数量</li>
@@ -19,33 +19,33 @@
           <ul class="cart-item-list" v-for="(item, index) in list" :key="index">
             <li class="cart-item">
               <div class="item-check">
-                <span class="checkbox"></span>
+                <span class="checkbox" :class="{'checked': item.productSelected}" @click="updateCart(item)"></span>
               </div>
               <div class="item-name">
                 <img v-lazy="item.productMainImage" alt="">
                 <span>{{item.productName + '，' + item.productSubtitle}}</span>
               </div>
-              <div class="item-price">1888</div>
+              <div class="item-price">{{item.productPrice}}</div>
               <div class="item-num">
                 <div class="num-box">
-                  <a href="javascript:;">-</a>
-                  <span>1</span>
-                  <a href="javascript:;">+</a>
+                  <a href="javascript:;" @click="updateCart(item, '-')">-</a>
+                  <span>{{item.quantity}}</span>
+                  <a href="javascript:;" @click="updateCart(item, '+')">+</a>
                 </div>
               </div>
-              <div class="item-total">1888</div>
-              <div class="item-del"></div>
+              <div class="item-total">{{item.productTotalPrice}}</div>
+              <div class="item-del" @click="delProduct(item)"></div>
             </li>
           </ul>
         </div>
         <div class="order-wrap clearfix">
           <div class="cart-tip fl">
             <a href="/#/index">继续购物</a>
-            共<span>1</span>件商品，已选择<span>1</span>件
+            共<span>{{list.length}}</span>件商品，已选择<span>{{checkedNum}}</span>件
           </div>
           <div class="total fr">
-            合计：<span>1888</span>元
-            <a href="javascript:;" class="btn">去结算</a>
+            合计：<span>{{cartTotalPrice}}</span>元
+            <a href="javascript:;" class="btn" @click="order()">去结算</a>
           </div>
         </div>
       </div>
@@ -89,6 +89,55 @@ export default {
       this.list = res.cartProductVoList || [];
       this.allChecked = res.selectedAll;
       this.cartTotalPrice = res.cartTotalPrice;
+      this.checkedNum = this.list.filter(item => item.productSelected).length
+    },
+    //购物车数量改变
+    updateCart(item, type) {
+      let selected = item.productSelected
+      let quantity = item.quantity
+      if(type == '-') {
+        if(quantity == 1) {
+          alert('商品至少保留一件')
+          return
+        }
+        --quantity
+      } else if(type == '+') {
+        if(quantity > item.productStock) {
+          alert('超出库存')
+          return
+        }
+        ++quantity
+      } else {
+        selected = !item.productSelected
+      }
+      this.axios.put(`/carts/${item.productId}`, {
+        quantity,
+        selected
+      }).then((res) => {
+        this.renderData(res)
+      })
+    },
+    // 删除购物车产品
+    delProduct(item) {
+      this.axios.delete(`/carts/${item.productId}`).then((res) => {
+        this.renderData(res)
+      })
+    },
+    // 控制全选和全不选
+    toggleAll() {
+      let url = this.allChecked?'carts/unSelectAll':'carts/selectAll'
+      this.axios.put(url).then((res) => {
+        this.renderData(res)
+      })
+    },
+    // 购物车下单
+    order() {
+      let isCheck = this.list.every(item => !item.productSelected)
+      if(isCheck) {
+        alert('至少选一件')
+      } else {
+        this.$router.push('/order/confirm')
+      }
     }
   }
 }
