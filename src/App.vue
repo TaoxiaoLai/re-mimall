@@ -16,8 +16,11 @@ export default {
     }
   },
   mounted() {
-    this.getUser()
-    this.getCartCount()
+    // 因为刷新之后vuex里面存储的数据就没了，所以需要再重新获取一遍
+    if(this.$cookie.get('userId')) {  // 通过判断cookie是否存在，就知道用户是否已经登录，已经登录的话，再去获取用户名和购物车产品数量
+      this.getUser();
+      this.getCartCount();
+    }
   },
   methods: {
     getUser(){

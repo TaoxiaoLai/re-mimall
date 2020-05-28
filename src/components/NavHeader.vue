@@ -11,6 +11,7 @@
         <div class="topbar-user">
           <a href="javascript:;" v-if="!username" @click="goToLogin">用户登录</a>
           <a href="javascript:;" v-if="username">{{username}}</a>
+          <a href="javascript:;" v-if="username" @click="LogOut">退出</a>
           <a href="javascript:;" v-if="username">我的订单</a>
           <a href="javascript:;" class="my-cart" @click="goToCart"><span class="icon-cart"></span>购物车({{cartCount}})</a>
         </div>
@@ -27,7 +28,7 @@
             <div class="children">
               <ul>
                 <li class="product" v-for="(item, index) in productList" :key="index">
-                  <a :href="'/#/product/' + item.id" target="_blank">
+                  <a :href="'/#/product/' + item.id">
                     <div class="pro-img">
                       <img v-lazy="item.mainImage" alt="">
                     </div>
@@ -131,6 +132,10 @@ export default {
   },
   mounted() {
     this.getProductList()
+    let params = this.$route.params
+    if(params && params.from == 'login') {
+      this.getCartCount()
+    }
   },
   methods: {
     goToLogin() {
@@ -147,6 +152,19 @@ export default {
         }
       }).then((res) => {
         this.productList = res.list
+      })
+    },
+    getCartCount() {
+      this.axios.get('/carts/products/sum').then((res=0) => {
+        this.$store.dispatch('saveCartCount',res)
+      })
+    },
+    LogOut() {
+      this.axios.post('/user/logout').then(() => {
+        this.$message.success('退出成功')
+        this.$store.dispatch('saveUserName', '')
+        this.$store.dispatch('saveCartCount', '0')
+        this.$cookie.set('userId', '', {expires: -1})
       })
     }
   }

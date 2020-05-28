@@ -57,10 +57,21 @@ export default {
         username,
         password
       }).then((res) => {
-        this.$cookie.set('userId', res.id, {expires: '1M'})
+        this.$cookie.set('userId', res.id, {expires: 'Session'})  // 登录之后前端这边在浏览器上种下一个cookie，Session表示是在浏览器整个关闭退出后过期
         // this.$store.dispatch('saveUserName',res.username)
         this.saveUserName(res.username)
-        this.$router.push('/index')
+        this.$router.push({   //对比下面的另一个写法
+          name: 'index',
+          params: {
+            from: 'login'
+          }
+        })
+        // this.$router.push({
+        //   path: '/index',
+        //   query: {
+        //     from: 'login'
+        //   }
+        // })
       })
     },
     ...mapMutations([
