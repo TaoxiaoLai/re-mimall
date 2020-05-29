@@ -61,13 +61,13 @@ export default {
         // this.$store.dispatch('saveUserName',res.username)
         this.saveUserName(res.username)
         this.$router.push({   //对比下面的另一个写法
-          name: 'index',
+          name: 'index',     // 对应router.js里面的name
           params: {
             from: 'login'
           }
         })
         // this.$router.push({
-        //   path: '/index',
+        //   path: '/index',    //对应router.js里面的path
         //   query: {
         //     from: 'login'
         //   }
