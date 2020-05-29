@@ -11,10 +11,10 @@
           <div class="item-address">
             <h2 class="addr-title">收货地址</h2>
             <div class="addr-list clearfix">
-              <div class="addr-info">
-                <h2>xiaolai</h2>
-                <div class="phone">12345678901</div>
-                <div class="street">beijing tongzhou 1234567</div>
+              <div class="addr-info" v-for="(item, index) in list" :key="index">
+                <h2>{{item.receiverName}}</h2>
+                <div class="phone">{{item.receiverMobile}}</div>
+                <div class="street">{{item.receiverProvince + ' ' + item.receiverCity + ' ' + item.receiverDistrict + ' ' + item.receiverAddress}}</div>
                 <div class="action">
                   <a href="javascript:;" class="fl">
                     <img src="" alt="" style="display:inline-block; width:12px; height:12px; background:yellow;">
@@ -33,13 +33,13 @@
           <div class="item-good">
             <h2>商品</h2>
             <ul>
-              <li>
+              <li v-for="(item, index) in cartList" :key="index">
                 <div class="good-name">
-                  <img src="" alt="">
-                  <span>xiaomi cc9 very good Are you Ok?</span>
+                  <img v-lazy='item.productMainImage' alt="">
+                  <span>{{item.productName + ' ' + item.productSubtitle}}</span>
                 </div>
-                <div class="good-price">1999元</div>
-                <div class="good-total">1999元</div>
+                <div class="good-price">{{item.productPrice}}元✖{{item.quantity}}</div>
+                <div class="good-total">{{item.productTotalPrice}}元</div>
               </li>
             </ul>
           </div>
@@ -55,11 +55,11 @@
           <div class="detail">
             <div class="item">
               <span class="item-name">商品件数：</span>
-              <span class="item-val">1件</span>
+              <span class="item-val">{{count}}件</span>
             </div>
             <div class="item">
               <span class="item-name">商品总价：</span>
-              <span class="item-val">1999元</span>
+              <span class="item-val">{{totalPrice}}元</span>
             </div>
             <div class="item">
               <span class="item-name">优惠活动：</span>
@@ -71,7 +71,7 @@
             </div>
             <div class="item-total">
               <span class="item-name">应付总额：</span>
-              <span class="item-val">1999元</span>
+              <span class="item-val">{{totalPrice}}元</span>
             </div>
           </div>
           <div class="btn-group">
@@ -93,13 +93,32 @@ export default {
   },
   data() {
     return {
-
+      list: [], //收货地址
+      cartList: [], //选中的商品列表
+      count: 0, //商品结算数量
+      totalPrice: 0 //商品总价格
     }
   },
   mounted() {
-
+    this.getCartList()
+    this.getAddressList()
   },
   methods: {
+    getAddressList() {
+      this.axios.get('/shippings').then((res) => {
+        this.list = res.list
+      })
+    },
+    getCartList() {
+      this.axios.get('/carts').then((res) => {
+        let list = res.cartProductVoList
+        this.totalPrice = res.cartTotalPrice
+        this.cartList = list.filter(item => item.productSelected)
+        this.cartList.map((item) => {
+          this.count += item.quantity
+        })
+      })
+    },
     openAddressModal() {
 
     }
@@ -133,7 +152,7 @@ export default {
               width: 271px;
               height: 180px;
               margin-right: 15px;
-              padding: 15px;
+              padding: 15px 24px;
               font-size: 14px;
               color: #757575;
             }
